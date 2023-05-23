@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 7711192072512845813}
   - component: {fileID: 7711192072512845812}
   - component: {fileID: 7711192072512845815}
+  - component: {fileID: 3575013150092368668}
   m_Layer: 0
   m_Name: Flappy Bird Yellow
   m_TagString: Untagged
@@ -105,3 +106,25 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
+--- !u!114 &3575013150092368668
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7711192072512845814}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 63d6eb7548e50f7448974da40c6ef7c7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  redBird: {fileID: 0}
+  yellowBird: {fileID: 0}
+  blueBird: {fileID: 0}
+  countDownText: {fileID: 0}
+  bullet: {fileID: 0}
+  birdOjc: {fileID: 0}
+  jumpForce: 0
+  hasScored: 0
+  score: 0
+  birdType: 0

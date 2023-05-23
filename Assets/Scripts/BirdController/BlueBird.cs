@@ -3,18 +3,13 @@ using System.Collections.Generic;
 using System.IO.Pipes;
 using UnityEngine;
 
-public class BlueBird : MonoBehaviour, Bird
+public class BlueBird : BirdController
 {
-     public GameObject ShowBird(GameObject Bird)
-    {
-        Vector2 spawnPosition = new Vector2(-1.5f, 0f);
-        GameObject bird = Instantiate(Bird, spawnPosition, Quaternion.identity);
-        return bird;
-    }
-    public void Skill()
+    public override void skill()
     {
         StartCoroutine(SkillCoroutine());
     }
+
     private IEnumerator SkillCoroutine()
     {
         GameObject[] pipes = GameObject.FindGameObjectsWithTag("PipeHolder");

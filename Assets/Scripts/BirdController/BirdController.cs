@@ -4,11 +4,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class BirdController : MonoBehaviour
+public abstract class BirdController : MonoBehaviour
 {
-    public static BirdController instance;
-    [SerializeField]
-    private GameObject redBird, yellowBird, blueBird;
+   
     public Text countDownText;
     public GameObject bullet;
     public GameObject birdOjc;
@@ -34,30 +32,18 @@ public class BirdController : MonoBehaviour
 
     void Awake()
     {
-     /*   IBird = gameObject.GetComponent<Bird>();
-        Vector2 spawnPosition = new Vector2(-1.5f, 0f);
-        birdOjc = Instantiate(birdOjc, spawnPosition, Quaternion.identity);*/
-        //countDownText.text = "Go";
-        //score = 0;
-        //ChooseBird();
         hasScored = false;
         isAlive = true;
-        canPressButton = true;
-        if (instance == null)
-        {
-            instance = this;
-        }
+        canPressButton = true; 
     }   
-    public void getBirdStatus(GameObject birdOjc, float jumbForce , float gravity , int score, Action playFlyMusic , Action playDiedMusic , Action playPingMusic)
+    public void getBirdStatus( float jumbForce , float gravity , int score, Action playFlyMusic , Action playDiedMusic , Action playPingMusic)
     {
-        this.birdOjc = birdOjc;
         this.jumpForce = jumbForce;
         this.gravity = gravity;
         this.score = score;
         this.playFlyMusic = playFlyMusic;
         this.playDiedMusic = playDiedMusic;
         this.playPingMusic = playPingMusic;
-
     }    
     public void GetPoolPipe(List<GameObject> pipes)
     {
@@ -75,7 +61,7 @@ public class BirdController : MonoBehaviour
     {
         birdMoveMent();
     }
-    void birdMoveMent()
+    public void birdMoveMent()
     {
        Vector3 PrevioustPosition = birdOjc.transform.position;
         if (!isAlive) return;
@@ -166,6 +152,10 @@ public class BirdController : MonoBehaviour
         }
         return false;
     }
+    public void fly()
+    {
+
+    }    
     public void IncreaseScore()
     {
         score++;
@@ -190,4 +180,5 @@ public class BirdController : MonoBehaviour
         countDownText.text = "Go";
         canPressButton = true; 
     }
+    public abstract void skill();
 }

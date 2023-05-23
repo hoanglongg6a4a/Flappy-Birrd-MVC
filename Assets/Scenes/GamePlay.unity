@@ -274,14 +274,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 80709f6c1cda30d4a82934ed20599a1c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  model: {fileID: 907177002}
-  view: {fileID: 604326531}
-  audio: {fileID: 505952192}
-  spawnerPipe: {fileID: 1894352855}
+  model: {fileID: 0}
+  view: {fileID: 0}
+  audio: {fileID: 0}
+  spawnerPipe: {fileID: 0}
   pipeHolder: {fileID: 0}
-  birdController: {fileID: 1894352858}
-  instuctionButton: {fileID: 1660651015}
-  spawnBird: {fileID: 1894352859}
+  birdController: {fileID: 0}
+  instuctionButton: {fileID: 0}
+  spawnBird: {fileID: 0}
+  birdList:
+  - birdType: 0
+    birdPrefab: {fileID: 0}
+  - birdType: 2
+    birdPrefab: {fileID: 8499230467263317888, guid: f3711b6669da6be4587cd7128c32a753, type: 3}
+  - birdType: 1
+    birdPrefab: {fileID: 3157532828213250593, guid: 7fbfa1207a4bc7d4194189d147c3adda, type: 3}
+  - birdType: 0
+    birdPrefab: {fileID: 7711192072512845814, guid: 404b9dc84e95f784f83b501847f58c47, type: 3}
 --- !u!1 &505952189
 GameObject:
   m_ObjectHideFlags: 0
