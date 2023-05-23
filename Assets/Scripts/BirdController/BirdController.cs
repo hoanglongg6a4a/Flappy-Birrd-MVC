@@ -8,12 +8,6 @@ public class BirdController : MonoBehaviour
 {
     public static BirdController instance;
     [SerializeField]
-    private Animator anim;
-    [SerializeField]
-    private AudioSource audioSource;
-    [SerializeField]
-    private AudioClip flyClip,pingClip,diedClip;
-    [SerializeField]
     private GameObject redBird, yellowBird, blueBird;
     public Text countDownText;
     public GameObject bullet;
@@ -37,13 +31,12 @@ public class BirdController : MonoBehaviour
     public Action playPingMusic;
 
     //private string KindBird="BirdType";
+
     void Awake()
     {
-
-        /*    string birdTypeString = PlayerPrefs.GetString(KindBird);
-            birdType = (BirdType)Enum.Parse(typeof(BirdType), birdTypeString);*/
+     /*   IBird = gameObject.GetComponent<Bird>();
         Vector2 spawnPosition = new Vector2(-1.5f, 0f);
-        birdOjc = Instantiate(birdOjc, spawnPosition, Quaternion.identity);
+        birdOjc = Instantiate(birdOjc, spawnPosition, Quaternion.identity);*/
         //countDownText.text = "Go";
         //score = 0;
         //ChooseBird();
@@ -54,9 +47,10 @@ public class BirdController : MonoBehaviour
         {
             instance = this;
         }
-    }
-    public void getBirdStatus(float jumbForce , float gravity , int score, Action playFlyMusic , Action playDiedMusic , Action playPingMusic)
+    }   
+    public void getBirdStatus(GameObject birdOjc, float jumbForce , float gravity , int score, Action playFlyMusic , Action playDiedMusic , Action playPingMusic)
     {
+        this.birdOjc = birdOjc;
         this.jumpForce = jumbForce;
         this.gravity = gravity;
         this.score = score;
@@ -73,27 +67,6 @@ public class BirdController : MonoBehaviour
     {
         return score;
     }    
-    public void ChooseBird()
-    {
-        switch (birdType)
-        {
-            case BirdType.Yellow:
-                IBird = gameObject.AddComponent<YellowBird>();
-                birdOjc = IBird.ShowBird(yellowBird);
-                break;
-            case BirdType.Red:
-                IBird = gameObject.AddComponent<RedBird>();
-                birdOjc = IBird.ShowBird(redBird);
-                break;
-            case BirdType.Blue:
-                IBird = gameObject.AddComponent<BlueBird>();
-                birdOjc = IBird.ShowBird(blueBird);
-                break;
-            default:
-                Debug.LogError("Invalid bird type!");
-                break;
-        }
-    }
     public bool CheckAlive()
     {
         return isAlive;
@@ -171,11 +144,9 @@ public class BirdController : MonoBehaviour
             playDiedMusic.Invoke();
             verticalVelocity = 0; 
             Time.timeScale = 0;
-/*          GamePlayController.instance.ShowMedal(score);
-            GamePlayController.instance.BirdDiedShowPanel(score);*/
         }
  
-        if (pipes.Count > 0)
+        if (pipesTest.Length > 0)
         {
             pipesTest = GameObject.FindGameObjectsWithTag(pipeTag);
             float currentSpeed = PipeHolder.instance.GetSpeed();
@@ -185,7 +156,6 @@ public class BirdController : MonoBehaviour
                 Renderer pipeRenderer = pipe.GetComponent<Renderer>();
                 Bounds birdBounds = birdRenderer.bounds;
                 Bounds pipeBounds = pipeRenderer.bounds;
-                Debug.Log(pipeBounds);
                 if (currentSpeed <= 5)
                 {
                     if(birdBounds.Intersects(pipeBounds))

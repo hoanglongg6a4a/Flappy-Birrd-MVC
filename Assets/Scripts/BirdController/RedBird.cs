@@ -12,6 +12,7 @@ public class RedBird : MonoBehaviour, Bird
     }
     public void Skill()
     {
+        Debug.Log("Xài Skill");
 /*        GameObject bullet = SpawnBullet.instance.GetBullet();
         bullet.transform.position = BirdController.instance.birdOjc.transform.position;
         bullet.SetActive(true);*/
