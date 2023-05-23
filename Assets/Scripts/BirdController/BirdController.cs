@@ -145,10 +145,9 @@ public class BirdController : MonoBehaviour
             verticalVelocity = 0; 
             Time.timeScale = 0;
         }
- 
+        pipesTest = GameObject.FindGameObjectsWithTag(pipeTag);
         if (pipesTest.Length > 0)
         {
-            pipesTest = GameObject.FindGameObjectsWithTag(pipeTag);
             float currentSpeed = PipeHolder.instance.GetSpeed();
             foreach (GameObject pipe in pipesTest)
             {
@@ -164,7 +163,7 @@ public class BirdController : MonoBehaviour
                     }
                 }
             }
-        } 
+        }
         return false;
     }
     public void IncreaseScore()
