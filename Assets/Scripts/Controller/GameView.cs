@@ -1,3 +1,4 @@
+using JetBrains.Annotations;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -15,14 +16,13 @@ public class GameView : MonoBehaviour
     private Text scoreText, endScoreText, bestScoreText;
     [SerializeField]
     private GameObject gameOverPanel;
+    [SerializeField] 
+    private Text SkillCoolDown;
     [SerializeField]
     private Image goldMedal, silverMedal, bronzeMedal;
     private GameObject[] medals;
+    private int coolDownTime;
 
-  /*  public void setAlive()
-    {
-        isAlive = true;
-    }    */
     public void SetScore(int score)
     {
         ScoreText.text= score.ToString();
@@ -36,6 +36,12 @@ public class GameView : MonoBehaviour
             ShowMedal(score);
         }
     }
+    public void SetSkillCoolDown(int time)
+    {
+        Debug.Log("In View");
+        SkillCoolDown.text = time.ToString();
+    }    
+
     public void ShowMedal(int score)
     {
         medals = new GameObject[] { bronzeMedal.gameObject, silverMedal.gameObject, goldMedal.gameObject };

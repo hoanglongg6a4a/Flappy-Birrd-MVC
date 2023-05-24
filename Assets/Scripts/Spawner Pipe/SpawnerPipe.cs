@@ -10,48 +10,74 @@ public class SpawnerPipe : MonoBehaviour
     public List<GameObject> poolPipe;
     public static SpawnerPipe instance;
     private int poolSize;
-    private int speed;
+    private float speed;
+    private int index=0;
     // Start is called before the first frame update
-    public void GetPipeStatus(int poolSize , int speed )
+    public void GetPipeStatus(int poolSize , float speed )
     {
         this.poolSize = poolSize;
         this.speed = speed;
     }
+    public float GetSpeed()
+    {
+        return speed;
+    }    
     public List<GameObject> GetListPipe()
     {
         return poolPipe;
     }
     void Start()
     {
-        MakeInstance();
         for (int i = 0; i < poolSize; i++)
         {
             GameObject pipe = Instantiate(pipeHolderObj);
-            pipe.SetActive(false);
             poolPipe.Add(pipe);
         }
         StartCoroutine(Spawner());
     }
-    void MakeInstance()
+    public void SetSpeedPipe(float speed)
     {
-        if (instance == null)
+        for (int i = 0; i < poolPipe.Count; i++)
         {
-            instance = this;
+            GameObject pipe = poolPipe[i]; // Lấy đối tượng ống tại chỉ mục i
+
+            pipe.GetComponent<PipeHolder>().SetSpeed(speed);
         }
+    }    
+
+    public GameObject getPipe()
+    {
+        return poolPipe[index];
     }
+
     IEnumerator Spawner()
     {
         Vector3 screenMaxPoint = new Vector3(Screen.width, Screen.height, 0);
         Vector3 worldMaxPoint = Camera.main.ScreenToWorldPoint(screenMaxPoint);
         float maxX = worldMaxPoint.x;
         yield return new WaitForSeconds(1.5f);
-            GameObject pipe = GetPooledPipe();
-           Vector3 temp = pipe.transform.position;
-            temp.y = Random.Range(-1.8f, 1.8f);
-            temp.x = maxX;
-            pipe.transform.position = temp;
+        GameObject pipe = poolPipe[index];
+        Vector3 temp = pipe.transform.position;
+        temp.y = Random.Range(-1.8f, 1.8f);
+        temp.x = maxX;
+        pipe.transform.position = temp;
+        
+        if (index >= poolPipe.Count)
+        { index = 0; }
+        setPositionPipe(pipe, temp);
         StartCoroutine(Spawner());
     }
+    private void setPositionPipe(GameObject pipe , Vector3 temp)
+    {
+        Vector3 screenMinPoint = new Vector3(0, 0, 0);
+        Vector3 worldMinPoint = Camera.main.ScreenToWorldPoint(screenMinPoint);
+        float minX = worldMinPoint.x;
+        if (pipe.transform.position.x < minX - 0.5f)
+        {
+            index++;
+            pipe.transform.position = temp;
+        }
+    }    
     public GameObject GetPooledPipe()
     {
         foreach (GameObject pipe in poolPipe)
@@ -63,7 +89,6 @@ public class SpawnerPipe : MonoBehaviour
                 return pipe;
             }
         }
-        // Nếu không có viên đạn khả dụng trong pool, tạo thêm và trả về viên đạn mới
         GameObject newPipe = Instantiate(pipeHolderObj);
         poolPipe.Add(newPipe);
         return newPipe;

@@ -1,17 +1,31 @@
-﻿/*using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 
 public class SpawnBullet : MonoBehaviour
 {
     public GameObject bulletPrefab;
-    public int poolSize = 10;
+    public int poolSize ;
     public List<GameObject> bulletPool;
-    public static SpawnBullet instance;
-
+    private float speed;
+    private Vector3 currentBirdPos;
+    public void GetBulletStatus(int poolSize , float speed)
+    {
+        this.poolSize = poolSize;
+        this.speed = speed;
+        
+    }   
+    public void GetBirdPos(Vector2 currentBirdPos)
+    {
+        this.currentBirdPos = currentBirdPos;
+    }    
+    public float GetSpeed()
+    {
+        return speed;
+    }    
     private void Start()
     {
-        MakeInstance();
         bulletPool = new List<GameObject>();
         for (int i = 0; i < poolSize; i++)
         {
@@ -22,6 +36,7 @@ public class SpawnBullet : MonoBehaviour
     }
     private void Update()
     {
+       
         Vector3 screenMaxPoint = new Vector3(Screen.width, Screen.height, 0);
         Vector3 worldMaxPoint = Camera.main.ScreenToWorldPoint(screenMaxPoint);
         float maxX = worldMaxPoint.x;
@@ -31,28 +46,23 @@ public class SpawnBullet : MonoBehaviour
             {
                 bullet.SetActive(false);
             }
-        }    
-    }
-    void MakeInstance()
-    {
-        if (instance == null)
-        {
-            instance = this;
         }
     }
-    public GameObject GetBullet()
+    public void GetBullet()
     {
         foreach (GameObject bullet in bulletPool)
         {
             if (!bullet.activeInHierarchy)
             {
                 bullet.SetActive(true);
-                return bullet;
+                bullet.GetComponent<Bullet>().GetSpeed(speed);
+                bullet.transform.position = currentBirdPos;
+                break;
+                //return bullet;
             }
         }
-        GameObject newBullet = Instantiate(bulletPrefab);
+  /*      GameObject newBullet = Instantiate(bulletPrefab);
         bulletPool.Add(newBullet);
-        return newBullet;
+        return newBullet;*/
     }
 }
-*/

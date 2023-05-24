@@ -4,17 +4,34 @@ using UnityEngine;
 
 public class YellowBird : BirdController
 {
-    public override void skill()
+   
+    private bool canPressButoon = true;
+    public override void Skill()
     {
-        StartCoroutine(SkillCoroutine());
-    }
-    private IEnumerator SkillCoroutine()
+        if (canPressButoon)
         {
-            PipeHolder.instance.SetSpeed(15f);
-            yield return new WaitForSeconds(0.5f);                                            
-            PipeHolder.instance.SetSpeed(5f);
+            canPressButoon &= false;
+            StartCoroutine(SkillCoolDown());
         }
- }
+    }
+    IEnumerator SkillCoolDown()
+    {
+        base.setSpeed(15f);
+        base.setCurrentSpeed(15f);
+        yield return new WaitForSeconds(0.5f);
+        base.setSpeed(5f);
+        base.setCurrentSpeed(5f);
+        int countdownValue = 5;
+        while (countdownValue >= 0)
+        {
+            base.SetSkillCoolDown(countdownValue);
+            countdownValue--;
+            yield return new WaitForSeconds(1f);
+        }
+        //countDownText.text = "Go";
+        canPressButoon = true;
+    }
+}
 
 
 

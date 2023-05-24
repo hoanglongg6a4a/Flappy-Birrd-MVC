@@ -12,7 +12,7 @@ public class GameModel : MonoBehaviour
     #region PIPE
     [Header("PIPE STATUS")]
     [Tooltip("Speed Pipe")]
-    public int speed = 5;
+    public float speed = 5;
     [Tooltip("Nunber of Pipe")]
     public int pipeNum = 2;
     #endregion
@@ -21,7 +21,8 @@ public class GameModel : MonoBehaviour
     [Header("BULLET STATUS")]
     [Tooltip("Nunber of Bullet")]
     [Range(5f, 10f)]
-    public int bulletNum = 0;
+    public int bulletNum = 10;
+    public int bulletSpeed = 2;
     #endregion
 
     #region BIRD

@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO.Pipes;
@@ -5,34 +6,28 @@ using UnityEngine;
 
 public class BlueBird : BirdController
 {
-    public override void skill()
+    private bool canPressButoon = true;    
+    public override void Skill()
     {
-        StartCoroutine(SkillCoroutine());
+        if (canPressButoon)
+        {
+            canPressButoon&= false;
+            StartCoroutine(SkillCoolDown());
+        }  
     }
-
-    private IEnumerator SkillCoroutine()
+    IEnumerator SkillCoolDown()
     {
-        GameObject[] pipes = GameObject.FindGameObjectsWithTag("PipeHolder");
-        if(pipes.Length == 1 )
+        base.setSpeed(1f);
+        yield return new WaitForSeconds(0.5f);
+        base.setSpeed(5f);
+        int countdownValue = 5;
+        while (countdownValue >= 0)
         {
-            pipes[0].GetComponent<PipeHolder>().speed = 1;
+            base.SetSkillCoolDown(countdownValue);
+            countdownValue--;
+            yield return new WaitForSeconds(1f);
+          
         }
-        else if(pipes.Length == 2 )
-        {
-            pipes[0].GetComponent<PipeHolder>().speed = 1;
-            pipes[1].GetComponent<PipeHolder>().speed = 1;
-        }    
-        PipeHolder.instance.SetSpeed(1f); // 
-        yield return new WaitForSeconds(0.5f); //                                             
-        PipeHolder.instance.SetSpeed(5f);
-        if (pipes.Length == 1)
-        {
-            pipes[0].GetComponent<PipeHolder>().speed = 5;
-        }
-        else if (pipes.Length == 2)
-        {
-            pipes[0].GetComponent<PipeHolder>().speed = 5;
-            pipes[1].GetComponent<PipeHolder>().speed = 5;
-        }
+        canPressButoon = true;
     }
 }
