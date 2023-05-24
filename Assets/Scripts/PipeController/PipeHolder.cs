@@ -9,7 +9,7 @@ public class PipeHolder : MonoBehaviour
     public static PipeHolder instance;
     void Start()
     {
-        speed = gameObject.GetComponent<SpawnerPipe>().GetSpeed();
+        //speed = gameObject.GetComponent<SpawnerPipe>().GetSpeed();
     }
     public void SetSpeed(float speed)
     {

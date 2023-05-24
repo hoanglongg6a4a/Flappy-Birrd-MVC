@@ -8,20 +8,16 @@ public abstract class BirdController : MonoBehaviour
 {
     public Text countDownText;
     public GameObject bullet;
-    //public GameObject   gameObject;
     private List<GameObject> pipes;
     private GameObject[] pipeHolders;
     private GameObject[] pipesTest;
-
     private float verticalVelocity = 0f;
     private bool isAlive;
     public float jumpForce;
     private float gravity;
     private const string pipeTag = "Pipe";
-    private bool canPressButton;
     public bool hasScored;
     public int score;
-    private Bird IBird;
     public BirdType birdType;
     public Action playFlyMusic;
     public Action playDiedMusic;
@@ -35,7 +31,6 @@ public abstract class BirdController : MonoBehaviour
     {
         hasScored = false;
         isAlive = true;
-        canPressButton = true;
     }
     public void getBirdStatus(float jumbForce, float gravity, int score, Action playFlyMusic, Action playDiedMusic, Action playPingMusic ,float speed, Action<float> setSpeed , Action getBullet,Action<int>SetSkillCoolDown)
     {
@@ -93,7 +88,6 @@ public abstract class BirdController : MonoBehaviour
             verticalVelocity = 0;
             Time.timeScale = 0;
         }
-
         pipesTest = GameObject.FindGameObjectsWithTag(pipeTag);
         if (pipesTest.Length > 0)
         {
@@ -124,7 +118,6 @@ public abstract class BirdController : MonoBehaviour
         {
             verticalVelocity = jumpForce;
             playFlyMusic.Invoke();
-            //audioSource.PlayOneShot(flyClip);
         }
         verticalVelocity -= gravity * Time.deltaTime;
         gameObject.transform.position += Vector3.up * verticalVelocity * Time.deltaTime;
@@ -141,9 +134,5 @@ public abstract class BirdController : MonoBehaviour
         float angle = Mathf.Lerp(0, (currentPosition.y > PrevioustPosition.y) ? 90 : -90, Mathf.Abs(verticalVelocity) / 9);
         gameObject.transform.rotation = Quaternion.Euler(0, 0, angle);
     }
-   
     public abstract void Skill();
-    
-
-
 }

@@ -14,7 +14,6 @@ public class MainMenuController : MonoBehaviour
         parameter.type = birdType;
         DontDestroyOnLoad(gameObject);
         SceneManager.LoadScene(scene);
-        //PlayerPrefs.SetString("BirdType", birdType.ToString());
     }
     public void ChoseRedBird()
     {

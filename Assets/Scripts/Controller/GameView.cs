@@ -13,7 +13,7 @@ public class GameView : MonoBehaviour
     [SerializeField]
     private Button instuctionButton;
     [SerializeField]
-    private Text scoreText, endScoreText, bestScoreText;
+    private Text endScoreText, bestScoreText;
     [SerializeField]
     private GameObject gameOverPanel;
     [SerializeField] 
@@ -22,7 +22,11 @@ public class GameView : MonoBehaviour
     private Image goldMedal, silverMedal, bronzeMedal;
     private GameObject[] medals;
     private int coolDownTime;
-
+    private const string HIGH_SCORE = "High Score";
+    private void Awake()
+    {
+        PlayerPrefs.SetInt(HIGH_SCORE, 0);
+    }
     public void SetScore(int score)
     {
         ScoreText.text= score.ToString();
@@ -34,7 +38,21 @@ public class GameView : MonoBehaviour
             gameOverPanel.SetActive(true);
             endScoreText.text = score.ToString();
             ShowMedal(score);
+            if (score > GetHighScore())
+            {
+               SetHighScore(score);
+            }
+            bestScoreText.text = GetHighScore().ToString();
+          
         }
+    }
+    public void SetHighScore(int score)
+    {
+        PlayerPrefs.SetInt(HIGH_SCORE, score);
+    }
+    public int GetHighScore()
+    {
+        return PlayerPrefs.GetInt(HIGH_SCORE);
     }
     public void SetSkillCoolDown(int time)
     {
@@ -76,13 +94,5 @@ public class GameView : MonoBehaviour
         return score;
     }
 
-    void Start()
-    {
-        
-    }
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+  
 }
