@@ -25,26 +25,23 @@ public class GameView : MonoBehaviour
     private const string HIGH_SCORE = "High Score";
     private void Awake()
     {
-        PlayerPrefs.SetInt(HIGH_SCORE, 0);
+        //PlayerPrefs.SetInt(HIGH_SCORE, 0);
+        SkillCoolDown.text = "Go";
     }
     public void SetScore(int score)
     {
         ScoreText.text= score.ToString();
     }
-    public void BirdDiedShowPanel(int score , bool Alive)
-    {
-        if (Alive != true)
+    public void BirdDiedShowPanel(int score)
+    {  
+        gameOverPanel.SetActive(true);
+        endScoreText.text = score.ToString();
+        ShowMedal(score);
+        if (score > GetHighScore())
         {
-            gameOverPanel.SetActive(true);
-            endScoreText.text = score.ToString();
-            ShowMedal(score);
-            if (score > GetHighScore())
-            {
-               SetHighScore(score);
-            }
-            bestScoreText.text = GetHighScore().ToString();
-          
+            SetHighScore(score);
         }
+        bestScoreText.text = GetHighScore().ToString();
     }
     public void SetHighScore(int score)
     {
@@ -56,10 +53,12 @@ public class GameView : MonoBehaviour
     }
     public void SetSkillCoolDown(int time)
     {
-        Debug.Log("In View");
         SkillCoolDown.text = time.ToString();
-    }    
-
+        if (time == 0)
+        {
+            SkillCoolDown.text = "Go";
+        }
+    } 
     public void ShowMedal(int score)
     {
         medals = new GameObject[] { bronzeMedal.gameObject, silverMedal.gameObject, goldMedal.gameObject };

@@ -36,7 +36,6 @@ public class SpawnBullet : MonoBehaviour
     }
     private void Update()
     {
-       
         Vector3 screenMaxPoint = new Vector3(Screen.width, Screen.height, 0);
         Vector3 worldMaxPoint = Camera.main.ScreenToWorldPoint(screenMaxPoint);
         float maxX = worldMaxPoint.x;
@@ -58,11 +57,7 @@ public class SpawnBullet : MonoBehaviour
                 bullet.GetComponent<Bullet>().GetSpeed(speed);
                 bullet.transform.position = currentBirdPos;
                 break;
-                //return bullet;
             }
         }
-  /*      GameObject newBullet = Instantiate(bulletPrefab);
-        bulletPool.Add(newBullet);
-        return newBullet;*/
     }
 }

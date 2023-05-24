@@ -1,11 +1,13 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
+using System.Data.Common;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class MainMenuController : MonoBehaviour
 {
-    string scene = "GamePlay";
+    private string scene = "GamePlay";
+    private const string BIRD_KIND = "Bird Kind";
     public void ChooseBird(BirdType birdType)
     {
         GameObject gameObject = new ("Param");
@@ -15,16 +17,22 @@ public class MainMenuController : MonoBehaviour
         DontDestroyOnLoad(gameObject);
         SceneManager.LoadScene(scene);
     }
-    public void ChoseRedBird()
+    public void GetBird()
     {
-        ChooseBird(BirdType.Red);
-    }
-    public void ChoseYellowBird()
-    {
-        ChooseBird(BirdType.Yellow);
-    }
-    public void ChoseBlueBird()
-    {
-        ChooseBird(BirdType.Blue);
-    }
+        switch (PlayerPrefs.GetInt(BIRD_KIND))
+        {
+            case 0:
+                ChooseBird(BirdType.Blue);
+                break;
+            case 1:
+                ChooseBird(BirdType.Red);
+                break;
+            case 2:
+                ChooseBird(BirdType.Yellow);
+                break;
+            default:
+                Debug.LogError("Invalid bird type!");
+                break;
+        }
+    }    
 }

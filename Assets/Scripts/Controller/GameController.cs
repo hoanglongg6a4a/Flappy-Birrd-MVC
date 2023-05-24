@@ -1,7 +1,5 @@
-using System;
-using System.Collections;
+
 using System.Collections.Generic;
-using System.Runtime.InteropServices.WindowsRuntime;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -27,15 +25,13 @@ public class GameController : MonoBehaviour
     [SerializeField] private SpawnBullet spawnBullet;
     [SerializeField] private SpawnerPipe spawnerPipe;
     [SerializeField] private PipeHolder pipeHolder;
-    [SerializeField] private BirdController birdController;
     [SerializeField] private Button instuctionButton;
     [SerializeField] private SpawnBird spawnBird;
     [SerializeField] private List<BirdInfo> birdList;
-    BirdType birdType;
-    private string birdTypeString;
     private Vector2 spawnPosition = new Vector2(-1.5f, 0f);
     private GameObject birdObj;
     private BirdController bird;
+    private int index;
     private void Awake()
     {
         Time.timeScale = 0;
@@ -43,7 +39,9 @@ public class GameController : MonoBehaviour
         spawnBullet.GetBulletStatus(model.bulletNum,model.bulletSpeed);
         birdObj = choseBird();
         bird = birdObj.GetComponent<BirdController>();
-        bird.getBirdStatus(model.bounceForce, model.gravity, view.GetScore(), playFlySound, playDieSound, playPingSound , spawnerPipe.GetSpeed(), spawnerPipe.SetSpeedPipe, spawnBullet.GetBullet , view.SetSkillCoolDown);
+        bird.getBirdStatus(model.bounceForce, model.gravity, view.GetScore(),audio.PlayFlapMusic,audio.PlayDieMusic,audio.PlayPingMusic 
+        , spawnerPipe.GetSpeed(), spawnerPipe.SetSpeedPipe, spawnBullet.GetBullet , view.SetSkillCoolDown,view.BirdDiedShowPanel,view.SetScore);
+        index = 0;
     }
     private GameObject choseBird()
     {
@@ -71,11 +69,8 @@ public class GameController : MonoBehaviour
     private void Update()
     {
         spawnBullet.GetBirdPos(bird.GetBirdPos());
-        view.SetScore(bird.getScore());
-        view.BirdDiedShowPanel(bird.getScore(), bird.CheckAlive());
-        bird.fly();
-        bird.CheckCollision();
-        bird.birdMoveMent(spawnerPipe.getPipe());
+        bird.Fly();
+        CheckPipe(); 
         if(Input.GetKeyDown(KeyCode.G)) 
         {
             bird.Skill();
@@ -86,16 +81,18 @@ public class GameController : MonoBehaviour
         Time.timeScale = 1;
         instuctionButton.gameObject.SetActive(false);
     }
-    public void playFlySound()
+    public void CheckPipe()
     {
-        audio.PlayFlapMusic();
-    }
-    public void playDieSound()
-    {
-        audio.PlayDieMusic();
-    }
-    public void playPingSound()
-    {
-        audio.PlayPingMusic();
-    }
+        if(bird.hasScored)
+        {
+            index++;
+            bird.hasScored = false;
+        }
+        if(index > model.pipeNum-1)
+        {
+            index= 0;
+        }
+        bird.CheckCollision();
+        bird.BirdMoveMent(spawnerPipe.getPipe(index));    
+    }    
 }

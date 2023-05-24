@@ -6,10 +6,15 @@ using UnityEngine;
 public class PipeHolder : MonoBehaviour
 {
     public float speed;
-    public static PipeHolder instance;
+    private float minX,maxX;
     void Start()
     {
-        //speed = gameObject.GetComponent<SpawnerPipe>().GetSpeed();
+        Vector3 screenMinPoint = new Vector3(0, 0, 0);
+        Vector3 worldMinPoint = Camera.main.ScreenToWorldPoint(screenMinPoint);
+        minX = worldMinPoint.x;
+        Vector3 screenMaxPoint = new Vector3(Screen.width, Screen.height, 0);
+        Vector3 worldMaxPoint = Camera.main.ScreenToWorldPoint(screenMaxPoint);
+        maxX = worldMaxPoint.x;
     }
     public void SetSpeed(float speed)
     {
@@ -26,9 +31,13 @@ public class PipeHolder : MonoBehaviour
     } 
     void PipeMovement()
     {
-       
         Vector3 temp = transform.position;
         temp.x -= speed * Time.deltaTime;
         transform.position = temp;
+        if (transform.position.x < minX - 5f)
+        {
+            transform.position = new Vector2(maxX, Random.Range(-1.8f, 1.8f));
+
+        }
     }
 }

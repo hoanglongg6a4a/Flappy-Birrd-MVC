@@ -26,7 +26,6 @@ public class BlueBird : BirdController
             base.SetSkillCoolDown(countdownValue);
             countdownValue--;
             yield return new WaitForSeconds(1f);
-          
         }
         canPressButoon = true;
     }

@@ -9,7 +9,9 @@ public class MenuChose : MonoBehaviour
     private Button previous, next, blue, red, yellow;
     private GameObject[] buttons;
     public GameObject[] birdPreFab;
-    int index;
+    private int index;
+    private const string BIRD_KIND = "Bird Kind";
+
     void Start()
     {
         index = 0;
@@ -20,33 +22,31 @@ public class MenuChose : MonoBehaviour
     {
         for (int i = 0; i < buttons.Length; i++)
         {
-            buttons[i].SetActive(i == index);
             birdPreFab[i].SetActive(i == index);
+            PlayerPrefs.SetInt(BIRD_KIND, index);
         }
     }
     // Update is called once per frame
     public void PreviousButoon()
     {
-        buttons[index].SetActive(false);
         birdPreFab[index].SetActive(false);
         index--;
         if (index < 0)
         {
             index = buttons.Length - 1;
         }
-        buttons[index].SetActive(true);
         birdPreFab[index].SetActive(true);
+        PlayerPrefs.SetInt(BIRD_KIND, index);
     }
     public void NextButoon()
     {
-        buttons[index].SetActive(false);
         birdPreFab[index].SetActive(false);
         index++;
         if (index >= buttons.Length)
         {
             index = 0;
         }
-        buttons[index].SetActive(true);
         birdPreFab[index].SetActive(true);
+        PlayerPrefs.SetInt(BIRD_KIND, index);
     }
 }

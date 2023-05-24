@@ -16,7 +16,7 @@ public class YellowBird : BirdController
     }
     IEnumerator SkillCoolDown()
     {
-        base.setSpeed(15f);
+        base.setSpeed(9f);
         base.setCurrentSpeed(15f);
         yield return new WaitForSeconds(0.5f);
         base.setSpeed(5f);
