@@ -10,8 +10,16 @@ public class YellowBird : BirdController
     {
         if (canPressButoon)
         {
+            base.SetTime();
             canPressButoon &= false;
             StartCoroutine(SkillCoolDown());
+        }
+    }
+    public void Update()
+    {
+        if(!canPressButoon)
+        {
+            base.GetTime();
         }
     }
     IEnumerator SkillCoolDown()

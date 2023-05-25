@@ -9,9 +9,12 @@ using UnityEngine.UI;
 public class GameView : MonoBehaviour
 {
     private int score = 0;
-    [SerializeField] private Text ScoreText;
+    [SerializeField] 
+    private Text ScoreText;
     [SerializeField]
     private Button instuctionButton;
+    [SerializeField] 
+    Image skillCoolDownImage;
     [SerializeField]
     private Text endScoreText, bestScoreText;
     [SerializeField]
@@ -32,6 +35,14 @@ public class GameView : MonoBehaviour
     {
         ScoreText.text= score.ToString();
     }
+    public void SetTime()
+    {
+        skillCoolDownImage.fillAmount = 0;
+    }   
+    public void GetTime()
+    {
+        skillCoolDownImage.fillAmount += 0.2f * Time.deltaTime;
+    }    
     public void BirdDiedShowPanel(int score)
     {  
         gameOverPanel.SetActive(true);

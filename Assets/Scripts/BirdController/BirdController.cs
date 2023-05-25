@@ -25,12 +25,13 @@ public abstract class BirdController : MonoBehaviour
     public Action<int> SetSkillCoolDown;
     public Action<int> DieShowPanel;
     public Action<int> SetScore;
+    public Action SetTime, GetTime;
     void Awake()
     {
         hasScored = false;
         isAlive = true;
     }
-    public void getBirdStatus(float jumbForce, float gravity, int score, Action playFlyMusic, Action playDiedMusic, Action playPingMusic ,float speed, Action<float> setSpeed , Action getBullet,Action<int>SetSkillCoolDown,Action<int>DieShowPanel,Action<int>SetScore)
+    public void getBirdStatus(float jumbForce, float gravity, int score, Action playFlyMusic, Action playDiedMusic, Action playPingMusic ,float speed, Action<float> setSpeed , Action getBullet,Action<int>SetSkillCoolDown,Action<int>DieShowPanel,Action<int>SetScore,Action SetTime,Action GetTime)
     {
         this.jumpForce = jumbForce;
         this.gravity = gravity;
@@ -44,6 +45,8 @@ public abstract class BirdController : MonoBehaviour
         this.SetSkillCoolDown = SetSkillCoolDown;
         this.DieShowPanel = DieShowPanel;
         this.SetScore = SetScore;
+        this.SetTime = SetTime;
+        this.GetTime = GetTime;
     }
     public Vector2 GetBirdPos()
     {

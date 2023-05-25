@@ -2,7 +2,9 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO.Pipes;
+using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.PlayerLoop;
 
 public class BlueBird : BirdController
 {
@@ -11,9 +13,17 @@ public class BlueBird : BirdController
     {
         if (canPressButoon)
         {
+            base.SetTime();
             canPressButoon&= false;
             StartCoroutine(SkillCoolDown());
         }  
+    }
+    private void Update()
+    {
+        if(!canPressButoon)
+        {
+            base.GetTime();
+        }
     }
     IEnumerator SkillCoolDown()
     {

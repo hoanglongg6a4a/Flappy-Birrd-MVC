@@ -40,7 +40,7 @@ public class GameController : MonoBehaviour
         birdObj = choseBird();
         bird = birdObj.GetComponent<BirdController>();
         bird.getBirdStatus(model.bounceForce, model.gravity, view.GetScore(),audio.PlayFlapMusic,audio.PlayDieMusic,audio.PlayPingMusic 
-        , spawnerPipe.GetSpeed(), spawnerPipe.SetSpeedPipe, spawnBullet.GetBullet , view.SetSkillCoolDown,view.BirdDiedShowPanel,view.SetScore);
+        , spawnerPipe.GetSpeed(), spawnerPipe.SetSpeedPipe, spawnBullet.GetBullet , view.SetSkillCoolDown,view.BirdDiedShowPanel,view.SetScore,view.SetTime,view.GetTime);
         index = 0;
     }
     private GameObject choseBird()
