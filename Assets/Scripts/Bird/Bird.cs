@@ -2,7 +2,7 @@
 using UnityEngine;
 public abstract class Bird : MonoBehaviour
 {
-    private float verticalVelocity = 0f;
+    private float verticalVelocity;
     private bool isAlive;
     private float jumpForce;
     private float gravity;

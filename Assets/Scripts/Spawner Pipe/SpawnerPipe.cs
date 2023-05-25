@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 public class SpawnerPipe : MonoBehaviour
 {
@@ -21,7 +20,7 @@ public class SpawnerPipe : MonoBehaviour
     }    
     private void Start()
     {
-        Vector3 screenMaxPoint = new Vector3(Screen.width, Screen.height, 0);
+        Vector3 screenMaxPoint = new Vector3(Screen.width, Screen.height, 0f);
         Vector3 worldMaxPoint = Camera.main.ScreenToWorldPoint(screenMaxPoint);
         maxX = worldMaxPoint.x;
         Spawner();
@@ -40,7 +39,6 @@ public class SpawnerPipe : MonoBehaviour
     }
     private void Spawner()
     {
-        Debug.Log(birdPos);
         for (int i = 0; i < poolSize; i++)
         {
             PipeHolder pipe = Instantiate<PipeHolder>(pipeHolderObj, new Vector3(maxX,Random.Range(-1.8f, 1.8f), 0f), Quaternion.identity);

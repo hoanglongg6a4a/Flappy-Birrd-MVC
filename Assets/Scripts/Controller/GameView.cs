@@ -1,6 +1,5 @@
 using UnityEngine;
 using UnityEngine.UI;
-
 public class GameView : MonoBehaviour
 {
     [SerializeField] 
@@ -15,9 +14,8 @@ public class GameView : MonoBehaviour
     private GameObject gameOverPanel;
     [SerializeField] 
     private Text SkillCoolDown;
-    [SerializeField]
-    private Image goldMedal, silverMedal, bronzeMedal;
-    private GameObject[] medals;
+    [SerializeField] 
+    private GameObject[] listMedal;
     private const string HIGH_SCORE = "High Score";
     private void Awake()
     {
@@ -62,25 +60,24 @@ public class GameView : MonoBehaviour
             SkillCoolDown.text = "Go";
         }
     } 
-    public void ShowMedal(int score)
+    private void ShowMedal(int score)
     {
-        medals = new GameObject[] { bronzeMedal.gameObject, silverMedal.gameObject, goldMedal.gameObject };
-        foreach (GameObject medal in medals)
+        foreach (GameObject medal in listMedal)
         {
             medal.gameObject.SetActive(false);
         }
 
         if (score <= 5)
         {
-            medals[0].gameObject.SetActive(true);
+            listMedal[0].gameObject.SetActive(true);
         }
         else if (score > 5 && score <= 10)
         {
-            medals[1].gameObject.SetActive(true);
+            listMedal[0].gameObject.SetActive(true);
         }
         else if (score > 10)
         {
-            medals[2].gameObject.SetActive(true);
+            listMedal[0].gameObject.SetActive(true);
         }
     }
 }

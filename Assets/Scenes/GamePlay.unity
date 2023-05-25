@@ -642,9 +642,10 @@ MonoBehaviour:
   bestScoreText: {fileID: 1917872865}
   gameOverPanel: {fileID: 2147475117}
   SkillCoolDown: {fileID: 276579184}
-  goldMedal: {fileID: 130855357}
-  silverMedal: {fileID: 807537876}
-  bronzeMedal: {fileID: 888079963}
+  listMedal:
+  - {fileID: 888079961}
+  - {fileID: 807537874}
+  - {fileID: 130855355}
 --- !u!1 &622739985
 GameObject:
   m_ObjectHideFlags: 0

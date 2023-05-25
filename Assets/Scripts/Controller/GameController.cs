@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Security.Cryptography;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -31,12 +32,13 @@ public class GameController : MonoBehaviour
     private Bird bird;
     private int index;
     private const string ParamTag = "Param";
+    private const string SaveColorBird = "color bird";
     private void Awake()
     {
         Time.timeScale = 0;
+        choseBird();
         spawnerPipe.SetPipeStatus(model.PipeNum,model.Speed);
-        spawnBullet.SetBulletStatus(model.BulletNum,model.BulletSpeed);
-        birdObj = choseBird();
+        spawnBullet.SetBulletStatus(model.BulletNum,model.BulletSpeed);   
         bird = birdObj.GetComponent<Bird>();
         bird.SetBirdStatus(model.BounceForce, model.Gravity,audio.PlayFlapMusic,audio.PlayDieMusic,audio.PlayPingMusic, spawnerPipe.GetSpeed());
         bird.GetAction(spawnerPipe.SetSpeedPipe, spawnBullet.GetBullet, view.SetSkillCoolDown, view.BirdDiedShowPanel, view.SetScore, view.SetTime, view.GetTime);
@@ -45,9 +47,21 @@ public class GameController : MonoBehaviour
     private GameObject choseBird()
     {
         GameObject BirdChose = GameObject.FindGameObjectWithTag(ParamTag);
-        Parameter parameter = BirdChose.GetComponent<Parameter>();
-        Destroy(BirdChose);
-        birdObj = Instantiate(birdList[(int)parameter.type].birdPrefab, spawnPosition, Quaternion.identity);
+        if(BirdChose != null )
+        {
+            Parameter parameter = BirdChose.GetComponent<Parameter>();
+            PlayerPrefs.SetInt(SaveColorBird, (int)parameter.type);
+            Destroy(BirdChose);
+        }
+        foreach (BirdInfo birdInfo in birdList)
+        {
+            if (PlayerPrefs.GetInt(SaveColorBird) == (int)birdInfo.birdType)
+            {
+                birdObj = Instantiate(birdList[PlayerPrefs.GetInt(SaveColorBird)].birdPrefab, spawnPosition, Quaternion.identity);
+                Destroy(BirdChose);
+                break;
+            }
+        }
         return birdObj;
     }
     private void Update()

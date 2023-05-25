@@ -3,13 +3,12 @@ public class PipeHolder : MonoBehaviour
 {
     private float speed;
     private float minX,maxX;
-    private Vector2  birdPos;
     void Start()
     {
-        Vector3 screenMinPoint = new Vector3(0, 0, 0);
+        Vector3 screenMinPoint = new Vector3(0f,0f,0f);
         Vector3 worldMinPoint = Camera.main.ScreenToWorldPoint(screenMinPoint);
         minX = worldMinPoint.x;
-        Vector3 screenMaxPoint = new Vector3(Screen.width, Screen.height, 0);
+        Vector3 screenMaxPoint = new Vector3(Screen.width, Screen.height,0f);
         Vector3 worldMaxPoint = Camera.main.ScreenToWorldPoint(screenMaxPoint);
         maxX = worldMaxPoint.x;
     }   
