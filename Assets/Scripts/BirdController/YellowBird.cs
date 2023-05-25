@@ -1,21 +1,18 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-
-public class YellowBird : BirdController
+public class YellowBird : Bird
 {
-   
     private bool canPressButoon = true;
     public override void Skill()
     {
         if (canPressButoon)
         {
             base.SetTime();
-            canPressButoon &= false;
+            canPressButoon = false;
             StartCoroutine(SkillCoolDown());
         }
     }
-    public void Update()
+    private void Update()
     {
         if(!canPressButoon)
         {
@@ -36,7 +33,6 @@ public class YellowBird : BirdController
             countdownValue--;
             yield return new WaitForSeconds(1f);
         }
-        //countDownText.text = "Go";
         canPressButoon = true;
     }
 }

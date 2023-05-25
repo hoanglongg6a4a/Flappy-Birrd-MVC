@@ -1,13 +1,12 @@
-
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
-
 public enum BirdType
 {
-    Yellow,
+    Blue,
     Red,
-    Blue
+    Yellow
 }
 public class GameController : MonoBehaviour
 {
@@ -26,49 +25,34 @@ public class GameController : MonoBehaviour
     [SerializeField] private SpawnerPipe spawnerPipe;
     [SerializeField] private PipeHolder pipeHolder;
     [SerializeField] private Button instuctionButton;
-    [SerializeField] private SpawnBird spawnBird;
     [SerializeField] private List<BirdInfo> birdList;
     private Vector2 spawnPosition = new Vector2(-1.5f, 0f);
     private GameObject birdObj;
-    private BirdController bird;
+    private Bird bird;
     private int index;
+    private const string ParamTag = "Param";
     private void Awake()
     {
         Time.timeScale = 0;
-        spawnerPipe.GetPipeStatus(model.pipeNum,model.speed);
-        spawnBullet.GetBulletStatus(model.bulletNum,model.bulletSpeed);
+        spawnerPipe.SetPipeStatus(model.PipeNum,model.Speed);
+        spawnBullet.SetBulletStatus(model.BulletNum,model.BulletSpeed);
         birdObj = choseBird();
-        bird = birdObj.GetComponent<BirdController>();
-        bird.getBirdStatus(model.bounceForce, model.gravity, view.GetScore(),audio.PlayFlapMusic,audio.PlayDieMusic,audio.PlayPingMusic 
-        , spawnerPipe.GetSpeed(), spawnerPipe.SetSpeedPipe, spawnBullet.GetBullet , view.SetSkillCoolDown,view.BirdDiedShowPanel,view.SetScore,view.SetTime,view.GetTime);
+        bird = birdObj.GetComponent<Bird>();
+        bird.SetBirdStatus(model.BounceForce, model.Gravity,audio.PlayFlapMusic,audio.PlayDieMusic,audio.PlayPingMusic, spawnerPipe.GetSpeed());
+        bird.GetAction(spawnerPipe.SetSpeedPipe, spawnBullet.GetBullet, view.SetSkillCoolDown, view.BirdDiedShowPanel, view.SetScore, view.SetTime, view.GetTime);
         index = 0;
     }
     private GameObject choseBird()
     {
-        GameObject BirdChose = GameObject.FindGameObjectWithTag("Param");
+        GameObject BirdChose = GameObject.FindGameObjectWithTag(ParamTag);
         Parameter parameter = BirdChose.GetComponent<Parameter>();
         Destroy(BirdChose);
-        switch (parameter.type)
-        {
-            case BirdType.Yellow:
-                birdObj = Instantiate( birdList[0].birdPrefab , spawnPosition, Quaternion.identity); 
-                break;
-            case BirdType.Blue:
-                birdObj = Instantiate(birdList[1].birdPrefab, spawnPosition, Quaternion.identity);
-                break;
-            case BirdType.Red:
-                birdObj = Instantiate(birdList[2].birdPrefab, spawnPosition, Quaternion.identity);
-                break;
-            default:
-                Debug.LogError("Invalid bird type!");
-                break;
-        }
+        birdObj = Instantiate(birdList[(int)parameter.type].birdPrefab, spawnPosition, Quaternion.identity);
         return birdObj;
     }
-   
     private void Update()
     {
-        spawnBullet.GetBirdPos(bird.GetBirdPos());
+        spawnBullet.SetBirdPos(bird.GetBirdPos());
         bird.Fly();
         CheckPipe(); 
         if(Input.GetKeyDown(KeyCode.G)) 
@@ -76,23 +60,25 @@ public class GameController : MonoBehaviour
             bird.Skill();
         }
     }
-    public void InstructionButton()
+    private void CheckPipe()
+    {
+        if (bird.CheckCollision(spawnerPipe.GetPipe(index)))
+        {
+            index++;
+        }
+        if (index > model.PipeNum -1) { index = 0; }
+    }
+    private void MenuButton()
+    {
+        SceneManager.LoadScene("GameMenu");
+    }
+    private void RestartGameButton()
+    {
+        SceneManager.LoadScene("GamePlay");
+    }
+    private void InstructionButton()
     {
         Time.timeScale = 1;
         instuctionButton.gameObject.SetActive(false);
     }
-    public void CheckPipe()
-    {
-        if(bird.hasScored)
-        {
-            index++;
-            bird.hasScored = false;
-        }
-        if(index > model.pipeNum-1)
-        {
-            index= 0;
-        }
-        bird.CheckCollision();
-        bird.BirdMoveMent(spawnerPipe.getPipe(index));    
-    }    
 }

@@ -1,14 +1,8 @@
-using JetBrains.Annotations;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SceneManagement;
-using UnityEngine.SocialPlatforms.Impl;
 using UnityEngine.UI;
 
 public class GameView : MonoBehaviour
 {
-    private int score = 0;
     [SerializeField] 
     private Text ScoreText;
     [SerializeField]
@@ -24,11 +18,9 @@ public class GameView : MonoBehaviour
     [SerializeField]
     private Image goldMedal, silverMedal, bronzeMedal;
     private GameObject[] medals;
-    private int coolDownTime;
     private const string HIGH_SCORE = "High Score";
     private void Awake()
     {
-        //PlayerPrefs.SetInt(HIGH_SCORE, 0);
         SkillCoolDown.text = "Go";
     }
     public void SetScore(int score)
@@ -91,18 +83,4 @@ public class GameView : MonoBehaviour
             medals[2].gameObject.SetActive(true);
         }
     }
-    public void MenuButton()
-    {
-        SceneManager.LoadScene("GameMenu");
-    }
-    public void RestartGameButton()
-    {
-        SceneManager.LoadScene("GamePlay");
-    }
-    public int GetScore()
-    {
-        return score;
-    }
-
-  
 }

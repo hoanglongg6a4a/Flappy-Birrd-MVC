@@ -1,7 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-
 public class GameAudio : MonoBehaviour
 {
     [SerializeField]
@@ -19,15 +16,5 @@ public class GameAudio : MonoBehaviour
     public void PlayPingMusic()
     {
         audioSource.PlayOneShot(pingClip);
-    }
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 }

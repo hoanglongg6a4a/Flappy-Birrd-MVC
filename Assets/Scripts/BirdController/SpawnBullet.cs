@@ -1,29 +1,22 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEditor;
+﻿using System.Collections.Generic;
 using UnityEngine;
-
 public class SpawnBullet : MonoBehaviour
 {
-    public GameObject bulletPrefab;
-    public int poolSize ;
-    public List<GameObject> bulletPool;
+    [SerializeField]
+    private GameObject bulletPrefab;
+    private int poolSize ;
+    private List<GameObject> bulletPool;
     private float speed;
-    private Vector3 currentBirdPos;
-    public void GetBulletStatus(int poolSize , float speed)
+    private Vector2 currentBirdPos;
+    public void SetBulletStatus(int poolSize , float speed)
     {
         this.poolSize = poolSize;
-        this.speed = speed;
-        
+        this.speed = speed;     
     }   
-    public void GetBirdPos(Vector2 currentBirdPos)
+    public void SetBirdPos(Vector2 currentBirdPos)
     {
         this.currentBirdPos = currentBirdPos;
-    }    
-    public float GetSpeed()
-    {
-        return speed;
-    }    
+    }      
     private void Start()
     {
         bulletPool = new List<GameObject>();

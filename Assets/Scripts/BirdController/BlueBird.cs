@@ -1,12 +1,6 @@
-using System;
 using System.Collections;
-using System.Collections.Generic;
-using System.IO.Pipes;
-using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.PlayerLoop;
-
-public class BlueBird : BirdController
+public class BlueBird : Bird
 {
     private bool canPressButoon = true;    
     public override void Skill()
@@ -14,7 +8,7 @@ public class BlueBird : BirdController
         if (canPressButoon)
         {
             base.SetTime();
-            canPressButoon&= false;
+            canPressButoon = false;
             StartCoroutine(SkillCoolDown());
         }  
     }
