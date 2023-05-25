@@ -68,7 +68,7 @@ public abstract class Bird : MonoBehaviour
                 verticalVelocity = 0f;
                 Time.timeScale = 0f;
             }
-            if (transform.position.y > bottomColumnBounds.max.y  || transform.position.y < topColumnBounds.min.y)
+            if (transform.position.y > bottomColumnBounds.max.y || transform.position.y < topColumnBounds.min.y)
             {
                 IncreaseScore();
                 return true;
@@ -102,7 +102,7 @@ public abstract class Bird : MonoBehaviour
         verticalVelocity -= gravity * Time.deltaTime;
         transform.position += Vector3.up * verticalVelocity * Time.deltaTime;
         Vector3 currentPosition = transform.position;
-        checkAngle(PrevioustPosition, currentPosition);
+        CheckAngle(PrevioustPosition, currentPosition);
     }
     private void IncreaseScore()
     {
@@ -110,7 +110,7 @@ public abstract class Bird : MonoBehaviour
         SetScore.Invoke(this.score);
         playPingMusic.Invoke();
     }
-    private void checkAngle(Vector3 PrevioustPosition, Vector3 currentPosition)
+    private void CheckAngle(Vector3 PrevioustPosition, Vector3 currentPosition)
     {
         float angle = Mathf.Lerp(0f, (currentPosition.y > PrevioustPosition.y) ? 90f : -90f, Mathf.Abs(verticalVelocity) / 9f);
         gameObject.transform.rotation = Quaternion.Euler(0f,0f,angle);

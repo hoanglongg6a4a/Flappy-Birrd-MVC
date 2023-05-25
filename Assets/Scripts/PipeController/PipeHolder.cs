@@ -20,7 +20,6 @@ public class PipeHolder : MonoBehaviour
     private void Update()
     {
         PipeMovement();
-        //CheckCollision(this.birdPos);
     } 
     private void PipeMovement()
     {

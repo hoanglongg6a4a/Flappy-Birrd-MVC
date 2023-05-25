@@ -7,7 +7,6 @@ public class SpawnerPipe : MonoBehaviour
     private int poolSize;
     private float speed;
     private float maxX;
-    private Vector2 birdPos;
     // Start is called before the first frame update
     public void SetPipeStatus(int poolSize , float speed)
     {
