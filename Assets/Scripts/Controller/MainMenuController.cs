@@ -5,7 +5,7 @@ public class MainMenuController : MonoBehaviour
     private string scene = "GamePlay";
     private const string BIRD_KIND = "Bird Kind";
     private string tag = "Param";
-    public void ChooseBird(BirdType birdType)
+    private void ChooseBird(BirdType birdType)
     {
         GameObject gameObject = new (tag);
         gameObject.tag = tag;

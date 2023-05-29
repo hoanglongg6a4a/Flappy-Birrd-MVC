@@ -4,6 +4,8 @@ public class GameModel : MonoBehaviour
     #region GAME PLAY
     [Space(8.0f)]
     [Header("Game Play")]
+    public string SenceMenuName  = "GameMenu";
+    public string SenceGamePlayName = "GamePlay";
     #endregion
 
     #region PIPE

@@ -7,7 +7,7 @@ public class BlueBird : Bird
     {
         if (canPressButoon)
         {
-            base.SetTime();
+            base.ResetCoolDown.Invoke();
             canPressButoon = false;
             StartCoroutine(SkillCoolDown());
         }  
@@ -16,14 +16,14 @@ public class BlueBird : Bird
     {
         if(!canPressButoon)
         {
-            base.GetTime();
+            base.ResetCoolDown.Invoke();
         }
     }
     IEnumerator SkillCoolDown()
     {
-        base.setSpeed(1f);
+        base.setSpeed.Invoke(1f);
         yield return new WaitForSeconds(0.5f);
-        base.setSpeed(5f);
+        base.setSpeed.Invoke(5f); ;
         int countdownValue = 5;
         while (countdownValue >= 0)
         {

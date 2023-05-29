@@ -7,7 +7,7 @@ public class YellowBird : Bird
     {
         if (canPressButoon)
         {
-            base.SetTime();
+            base.ResetCoolDown.Invoke();
             canPressButoon = false;
             StartCoroutine(SkillCoolDown());
         }
@@ -16,15 +16,15 @@ public class YellowBird : Bird
     {
         if(!canPressButoon)
         {
-            base.GetTime();
+            base.StartCoolDown.Invoke();
         }
     }
     IEnumerator SkillCoolDown()
     {
-        base.setSpeed(9f);
-        base.setCurrentSpeed(15f);
+        base.setSpeed.Invoke(9f);
+        base.setCurrentSpeed(9f);
         yield return new WaitForSeconds(0.5f);
-        base.setSpeed(5f);
+        base.setSpeed.Invoke(5f);
         base.setCurrentSpeed(5f);
         int countdownValue = 5;
         while (countdownValue >= 0)

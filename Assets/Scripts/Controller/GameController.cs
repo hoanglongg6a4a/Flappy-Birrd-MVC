@@ -34,16 +34,16 @@ public class GameController : MonoBehaviour
     private const string SaveColorBird = "color bird";
     private void Awake()
     {
-        Time.timeScale = 0;
-        choseBird();
+        Time.timeScale = 0f;
+        ChoseBird();
         spawnerPipe.SetPipeStatus(model.PipeNum,model.Speed);
         spawnBullet.SetBulletStatus(model.BulletNum,model.BulletSpeed);   
         bird = birdObj.GetComponent<Bird>();
         bird.SetBirdStatus(model.BounceForce, model.Gravity,audio.PlayFlapMusic,audio.PlayDieMusic,audio.PlayPingMusic, spawnerPipe.GetSpeed());
-        bird.GetAction(spawnerPipe.SetSpeedPipe, spawnBullet.GetBullet, view.SetSkillCoolDown, view.BirdDiedShowPanel, view.SetScore, view.SetTime, view.GetTime);
+        bird.SetAction(spawnerPipe.SetSpeedPipe, spawnBullet.GetBullet, view.SetSkillCoolDown, view.BirdDiedShowPanel, view.SetScore, view.StartCoolDown, view.ResetCoolDown);
         index = 0;
     }
-    private GameObject choseBird()
+    private GameObject ChoseBird()
     {
         GameObject BirdChose = GameObject.FindGameObjectWithTag(ParamTag);
         if(BirdChose != null )
@@ -66,6 +66,10 @@ public class GameController : MonoBehaviour
     private void Update()
     {
         spawnBullet.SetBirdPos(bird.GetBirdPos());
+        if(Input.GetKeyDown(KeyCode.Space))
+        {
+            Tap();
+        }
         bird.Fly();
         CheckPipe(); 
         if(Input.GetKeyDown(KeyCode.G)) 
@@ -81,17 +85,22 @@ public class GameController : MonoBehaviour
         }
         if (index > model.PipeNum -1) { index = 0; }
     }
-    private void MenuButton()
+    // Tap in screen to fly 
+    public void Tap()
     {
-        SceneManager.LoadScene("GameMenu");
+        bird.FlyTap();
     }
-    private void RestartGameButton()
+    public void MenuButton()
     {
-        SceneManager.LoadScene("GamePlay");
+        SceneManager.LoadScene(model.SenceMenuName);
     }
-    private void InstructionButton()
+    public void RestartGameButton()
     {
-        Time.timeScale = 1;
+        SceneManager.LoadScene(model.SenceGamePlayName);
+    }
+    public void InstructionButton()
+    {
+        Time.timeScale = 1f;
         instuctionButton.gameObject.SetActive(false);
     }
 }

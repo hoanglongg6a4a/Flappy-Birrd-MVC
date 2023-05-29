@@ -16,38 +16,40 @@ public abstract class Bird : MonoBehaviour
     protected Action<int> SetSkillCoolDown;
     protected Action<int> DieShowPanel;
     protected Action<int> SetScore;
-    protected Action SetTime, GetTime;
+    protected Action ResetCoolDown, StartCoolDown;
+    private Vector3 currentPosition;
+    private Vector3 previoustPosition;
     private void Awake()
     {
         score= 0;
         isAlive = true;
     }
-    public void SetBirdStatus(float jumbForce, float gravity, Action playFlyMusic, Action playDiedMusic, Action playPingMusic, float speed)
+    public void SetBirdStatus(float jumpForce, float gravity, Action playFlyMusic, Action playDiedMusic, Action playPingMusic, float currentSpeed)
     {
-        this.currentSpeed = speed;
-        this.jumpForce = jumbForce;
+        this.currentSpeed = currentSpeed;
+        this.jumpForce = jumpForce;
         this.gravity = gravity;
         this.playFlyMusic = playFlyMusic;
         this.playDiedMusic = playDiedMusic;
         this.playPingMusic = playPingMusic;
     }
-    public void GetAction(Action<float> setSpeed,Action getBullet,Action<int>SetSkillCoolDown,Action<int>DieShowPanel,Action<int> SetScore,Action SetTime,Action GetTime)
+    public void SetAction(Action<float> setSpeed,Action getBullet,Action<int>SetSkillCoolDown,Action<int>DieShowPanel,Action<int> SetScore,Action ResetCoolDown,Action StartCoolDown)
     { 
         this.setSpeed = setSpeed;
         this.getBullet = getBullet;
         this.SetSkillCoolDown = SetSkillCoolDown;
         this.DieShowPanel = DieShowPanel;
         this.SetScore = SetScore;
-        this.SetTime = SetTime;
-        this.GetTime = GetTime;
+        this.ResetCoolDown = ResetCoolDown;
+        this.StartCoolDown = StartCoolDown;
     }    
     public Vector2 GetBirdPos()
     {
         return transform.position;
     }    
-    protected void setCurrentSpeed(float speed)
+    protected void setCurrentSpeed(float currentSpeed)
     {
-        this.currentSpeed = speed;
+        this.currentSpeed = currentSpeed;
     }    
     public bool CheckCollision(PipeHolder pipe)
     {
@@ -60,7 +62,7 @@ public abstract class Bird : MonoBehaviour
         Bounds bottomColumnBounds = objectRenderer2.bounds;
         if (transform.position.x > topColumnBounds.min.x && transform.position.x < topColumnBounds.max.x)
         {
-            if (transform.position.y <= bottomColumnBounds.max.y && this.currentSpeed <= 5 || transform.position.y >= topColumnBounds.min.y && this.currentSpeed <= 5)
+            if (transform.position.y <= bottomColumnBounds.max.y && this.currentSpeed <= 5f || transform.position.y >= topColumnBounds.min.y && this.currentSpeed <= 5f)
             {
                 isAlive = false;
                 DieShowPanel.Invoke(this.score);
@@ -73,7 +75,7 @@ public abstract class Bird : MonoBehaviour
                 IncreaseScore();
                 return true;
             }
-            else if(this.currentSpeed >= 5) 
+            else if(this.currentSpeed > 5f) 
             {
                 IncreaseScore();
                 return true;
@@ -81,15 +83,11 @@ public abstract class Bird : MonoBehaviour
         }
         return false;
     }
+    // Bird's gravity and rotation
     public void Fly()
     {
         if (!isAlive) return;
-        Vector3 PrevioustPosition = transform.position;
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            verticalVelocity = jumpForce;
-            playFlyMusic.Invoke();
-        }
+        previoustPosition = transform.position;
         if (transform.position.y <= -4f)
         {
             isAlive = false;
@@ -101,8 +99,13 @@ public abstract class Bird : MonoBehaviour
         }
         verticalVelocity -= gravity * Time.deltaTime;
         transform.position += Vector3.up * verticalVelocity * Time.deltaTime;
-        Vector3 currentPosition = transform.position;
-        CheckAngle(PrevioustPosition, currentPosition);
+        currentPosition = transform.position;
+        CheckAngle(previoustPosition, currentPosition);
+    }
+    public void FlyTap()
+    {
+        verticalVelocity = jumpForce;
+        playFlyMusic.Invoke();
     }
     private void IncreaseScore()
     {
@@ -112,7 +115,7 @@ public abstract class Bird : MonoBehaviour
     }
     private void CheckAngle(Vector3 PrevioustPosition, Vector3 currentPosition)
     {
-        float angle = Mathf.Lerp(0f, (currentPosition.y > PrevioustPosition.y) ? 90f : -90f, Mathf.Abs(verticalVelocity) / 9f);
+        float angle = Mathf.Lerp(0f, (currentPosition.y > PrevioustPosition.y) ? 90f : -90f, verticalVelocity / 9f);
         gameObject.transform.rotation = Quaternion.Euler(0f,0f,angle);
     }
     public abstract void Skill();

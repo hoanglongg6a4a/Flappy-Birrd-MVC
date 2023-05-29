@@ -25,11 +25,11 @@ public class GameView : MonoBehaviour
     {
         ScoreText.text= score.ToString();
     }
-    public void SetTime()
+    public void ResetCoolDown()
     {
-        skillCoolDownImage.fillAmount = 0;
+        skillCoolDownImage.fillAmount = 0f;
     }   
-    public void GetTime()
+    public void StartCoolDown()
     {
         skillCoolDownImage.fillAmount += 0.2f * Time.deltaTime;
     }    
